@@ -9,11 +9,15 @@ function App() {
     return (
         <>
             <DndProvider backend={HTML5Backend}>
-                <Routes>
-                    <Route path="/" element={<Navigate to="/login"/>}/>
-                    <Route path="/login" element={<Login/>}/>
-                    <Route path="/dashboard" element={<Dashboard/>}/>
-                </Routes>
+                <div className="bg-gradient-to-br from-[#0F2027]
+                 via-[#203A43] to-[#2C5364]">
+
+                    <Routes>
+                        <Route path="/" element={<Navigate to="/login"/>}/>
+                        <Route path="/login" element={<Login/>}/>
+                        <Route path="/dashboard" element={<Dashboard/>}/>
+                    </Routes>
+                </div>
             </DndProvider>
         </>
     )

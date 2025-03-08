@@ -7,7 +7,7 @@ import App from "./App.jsx";
 
 createRoot(document.getElementById('root')).render(<StrictMode>
     <BrowserRouter>
-        <ToastContainer theme="colored" autoClose={2000}/>
+        <ToastContainer position="top-left" theme="colored" autoClose={2000}/>
         <App/>
     </BrowserRouter>
 </StrictMode>,)

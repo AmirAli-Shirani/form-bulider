@@ -1,105 +1,93 @@
-import { ErrorMessage, Field, Form, Formik } from "formik";
-import { IoEye, IoEyeOff } from "react-icons/io5";
-import { useState } from "react";
-import { toast } from "react-toastify";
-import { loginSchema } from "./loginSchema";
-import { NavLink, useNavigate } from "react-router-dom";
+import {ErrorMessage, Field, Form, Formik} from "formik";
+import {useState} from "react";
+import {toast} from "react-toastify";
+import {loginSchema} from "./schema/loginSchema.js";
+import {useNavigate} from "react-router-dom";
 import Button from "../UI/Button.jsx";
+import {AiFillEye, AiFillEyeInvisible} from "react-icons/ai";
 
 const Login = () => {
-  const [hidden, setHidden] = useState(true);
-  const navigate = useNavigate()
-  const user = {
-    email: "test@gmail.com",
-    password: "123456",
-  };
-  const handleSubmit = async (values, { setSubmitting }) => {
-    try {
-      if (values.email === user.email && values.password === user.password) {
-        toast.success("با موفقیت وارد شدید.", { icon: "✅", theme: "colored" });
-        navigate("/dashboard")
-      } else {
-        toast.error("اطلاعات وارد شده اشتباه می باشد!", { icon: "❌", theme: "colored" });
-      }
-    } catch (err) {
-      console.log(err.message);
-    } finally {
-      setSubmitting(false);
-    }
-7  };
-  return (
-    <div className="bg-white p-6 rounded-xl shadow-md h-screen flex justify-center items-center">
-      <Formik
-        initialValues={{ email: "", password: "" }}
-        validationSchema={loginSchema}
-        onSubmit={handleSubmit}>
-        {({ isSubmitting, errors }) => (
-          <Form className="flex flex-col border p-6 rounded-2xl w-lg gap-6">
-            <div className="flex flex-col gap-2">
-              <label htmlFor="email" className="font-medium text-gray-700">
-                آدرس ایمیل
-              </label>
-              <Field
-                type="email"
-                name="email"
-                id="email"
-                dir="ltr"
-                placeholder="Email@gmail.com"
-                className="p-2 px-4 border rounded-lg shadow-sm focus:ring-2 focus:ring-blue-400 focus:border-blue-400 transition-all"
-              />
-              <ErrorMessage
-                name="email"
-                component="p"
-                className="text-red-500 text-sm"
-              />
+    const [hidden, setHidden] = useState(true);
+    const navigate = useNavigate();
+
+    const user = {
+        email: "test@gmail.com",
+        password: "123456",
+    };
+
+    const handleSubmit = async (values, {setSubmitting}) => {
+        try {
+            if (values.email === user.email && values.password === user.password) {
+                toast.success("با موفقیت وارد شدید.", {icon: "✅", theme: "colored"});
+                navigate("/dashboard");
+            } else {
+                toast.error("اطلاعات وارد شده اشتباه است!", {icon: "❌", theme: "colored"});
+            }
+        } catch (err) {
+            console.log(err.message);
+        } finally {
+            setSubmitting(false);
+        }
+    };
+
+    return (
+        <div className="flex items-center  justify-center min-h-screen login_bg">
+            <div className="h-screen backdrop-blur-2xl flex w-full items-center justify-center ">
+
+                <div
+                    className="w-10/12 sm:w-8/12 md:w-5/12 lg:w-4/12 bg-white/80 backdrop-blur-2xl p-6 rounded-xl shadow-lg">
+                    <h1 className="text-2xl text-black font-bold text-center mb-4">ورود</h1>
+                    <Formik
+                        initialValues={{email: "", password: ""}}
+                        validationSchema={loginSchema}
+                        onSubmit={handleSubmit}>
+                        {({errors, touched, isSubmitting}) => (
+                            <Form className="space-y-4">
+                                <div>
+                                    <Field
+                                        type="email"
+                                        name="email"
+                                        placeholder="ایمیل"
+                                        className={`w-full p-3 text-gray-800 border placeholder:text-gray-800 rounded-lg  
+                                    ${errors.email && touched.email ? "border-red-500" : "border-gray-600"} 
+                                    focus:ring-2 focus:ring-indigo-500`}
+                                    />
+                                    <ErrorMessage name="email" component="div" className="text-red-600 text-sm mt-1"/>
+                                </div>
+
+                                <div className="relative">
+                                    <Field
+                                        type={hidden ? "password" : "text"}
+                                        name="password"
+                                        placeholder="رمز عبور"
+                                        className={`w-full p-3 text-gray-800 placeholder:text-gray-800 rounded-lg border 
+                                    ${errors.password && touched.password ? "border-red-500" : "border-gray-600"} 
+                                    focus:ring-2 focus:ring-indigo-500`}
+                                    />
+                                    <button
+                                        type="button"
+                                        className={`absolute ${errors.password && "-top-6"} inset-y-0 md:-top-1 left-3
+                                     flex items-center text-gray-700 hover:text-gray-900`}
+                                        onClick={() => setHidden(!hidden)}>
+                                        {hidden ? <AiFillEyeInvisible className="w-6 h-6"/> :
+                                            <AiFillEye className="w-6 h-6"/>}
+                                    </button>
+                                    <ErrorMessage name="password" component="div"
+                                                  className="text-red-600 text-sm mt-1"/>
+                                </div>
+
+                                <Button type="submit" disabled={isSubmitting} className="w-full text-white
+                             p-3 transition">
+                                    {isSubmitting ? "در حال ورود..." : "ورود"}
+                                </Button>
+                            </Form>
+                        )}
+                    </Formik>
+                </div>
             </div>
 
-            <div className="flex flex-col gap-2 relative">
-              <label htmlFor="password" className="font-medium text-gray-700">
-                رمز عبور
-              </label>
-              <div className="relative">
-                <Field
-                  type={hidden ? "password" : "text"}
-                  name="password"
-                  id="password"
-                  dir="ltr"
-                  placeholder="***********"
-                  className="p-2 px-4 border w-full rounded-lg shadow-sm focus:ring-2 focus:ring-blue-400 focus:border-blue-400 transition-all"
-                />
-                <span
-                  className="absolute right-3 top-1/2 transform -translate-y-1/2 text-xl cursor-pointer text-gray-500 hover:text-gray-700 transition-all"
-                  onClick={() => setHidden(!hidden)}
-                >
-                  {hidden ? <IoEyeOff /> : <IoEye />}
-                </span>
-              </div>
-              <ErrorMessage
-                name="password"
-                component="p"
-                className="text-red-500 text-sm"
-              />
-            </div>
-
-            {errors.serverError && (
-              <p className="text-red-500 text-sm">{errors.serverError}</p>
-            )}
-            <Button
-              className={`${
-                isSubmitting
-                  ? "bg-gray-400 cursor-not-allowed"
-                  : "bg-blue-500 hover:bg-blue-600 active:scale-95"
-              }`}
-              type="submit"
-              disabled={isSubmitting}
-            >
-              {isSubmitting ? "در حال ورود..." : "ورود"}
-            </Button>
-          </Form>
-        )}
-      </Formik>
-    </div>
-  );
+        </div>
+    );
 };
 
 export default Login;

@@ -1,1 +1,4 @@
 @import "tailwindcss";
+.login_bg {
+    background: url("../public/images/login/wallpaper.png") no-repeat center/cover;
+}
