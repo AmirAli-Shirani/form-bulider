@@ -75,7 +75,7 @@ const FormField = ({field}) => {
                     onChange={(e) => updateField(field.id, e.target.value)}
                 />
                 <div className="absolute top-5 right-0 mt-2 text-sm text-gray-700">
-                    {formData[field.id] || field.min || 0} {/* نمایش مقدار فعلی */}
+                    {formData[field.id] || field.min || 0}
                 </div>
             </div>)}
 
